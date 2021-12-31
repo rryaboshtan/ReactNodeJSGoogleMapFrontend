@@ -13,25 +13,36 @@ const options = {
 function App() {
    const [markers, setMarkers] = useState([]);
 
+   const onMapClick = useCallback(
+      event => {
+         setMarkers(current => [
+            ...current,
+            {
+               lat: event.latLng.lat(),
+               lng: event.latLng.lng(),
+               time: new Date(),
+            },
+         ]);
+      },
+      [],
+   );
+
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
          <GoogleMap
             defaultZoom={8}
             defaultCenter={{ lat: 43.653225, lng: -79.383186 }}
             options={options}
-            onClick={event => {
-               setMarkers(current => [
-                  ...current,
-                  {
-                     lat: event.latLng.lat(),
-                     lng: event.latLng.lng(),
-                     time: new Date(),
-                  },
-               ]);
-            }}
+            onClick={onMapClick}
          >
             {markers.map(marker => (
-               <Marker key={marker.time.toISOString()} position={{ lat: marker.lat, lng: marker.lng }}></Marker>
+               <Marker
+                  key={marker.time.toISOString()}
+                  position={{ lat: marker.lat, lng: marker.lng }}
+                  icon={{
+                     url: '/marker.png',
+                  }}
+               ></Marker>
             ))}
          </GoogleMap>
       ))
