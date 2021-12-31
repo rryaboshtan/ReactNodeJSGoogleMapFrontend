@@ -1,16 +1,21 @@
 import React from 'react';
-import '@reach/combobox/styles.css';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
-
 import './App.css';
+import '@reach/combobox/styles.css';
+import mapStyles from './mapStyles';
 // const center = {
 //   lat: 43.653225,
 //   lng: -79.383186,
 // }
+const options = {
+   styles: mapStyles,
+   disableDefaultUI: true,
+   zoomControl: true,
+}
 
 const MyMapComponent = withScriptjs(
    withGoogleMap(props => (
-      <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
+      <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }} options={options}>
          {/* {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />} */}
       </GoogleMap>
    ))
