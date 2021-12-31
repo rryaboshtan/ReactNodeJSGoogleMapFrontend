@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
+import Search from './components/Search';
 import './App.css';
 import '@reach/combobox/styles.css';
 import mapStyles from './mapStyles';
@@ -29,6 +30,11 @@ function App() {
    const onMapLoad = useCallback(map => {
       mapRef.current = map;
    }, []);
+
+   const panTo = useCallback(({ lat, lng }) => {
+      mapRef.current.panTo({ lat, lng });
+      mapRef.current.setZoom(14);
+   }, [mapRef]);
 
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
@@ -61,27 +67,26 @@ function App() {
                >
                   <div>
                      <h2>Bear spotted!</h2>
-                     {/* <p>Spotted {{ selected.time }}</p> */}
                   </div>
                </InfoWindow>
-            ): null}
+            ) : null}
          </GoogleMap>
       ))
    );
-
-   console.log(`Rendering TestC :`);
 
    return (
       <div className='map-container'>
          <h1>
             <span>Bears🎪</span>
          </h1>
+
+         <Search panTo={panTo} />
          <MyMapComponent
-            // isMarkerShown
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=places`}
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=places,geometry,drawing`}
             loadingElement={<div className='full-size' />}
             containerElement={<div className='full-size' />}
             mapElement={<div className='full-size' />}
+            onLoad={onMapLoad}
          />
       </div>
    );

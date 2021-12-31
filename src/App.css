@@ -11,3 +11,12 @@ h1 {
     z-index: 1;
     color: #4e1b1b;
 }
+.search {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 400px;
+    z-index: 1;
+}
