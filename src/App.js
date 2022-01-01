@@ -14,7 +14,7 @@ const options = {
 
 function App() {
    const [markers, setMarkers] = useState([]);
-   // const [selected, setSelected] = useState(null);
+   const [selected, setSelected] = useState(null);
 
    const onMapClick = useCallback(event => {
       setMarkers(current => [
@@ -41,8 +41,9 @@ function App() {
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
          <GoogleMap
-            defaultZoom={8}
-            defaultCenter={{ lat: 43.653225, lng: -79.383186 }}
+            defaultZoom={10}
+            
+            defaultCenter={{ lat: 45.467134581917357, lng: -75.546518086577947 }}
             options={options}
             onClick={onMapClick}
             // onLoad={onMapLoad}
@@ -59,7 +60,7 @@ function App() {
                   </Marker>
                ))
             }
-            {/* {markers.map((marker, outerIndex) => (
+            {markers.map((marker, outerIndex) => (
                <Marker
                   key={marker.time.toISOString()}
                   position={{ lat: marker.lat, lng: marker.lng }}
@@ -67,16 +68,23 @@ function App() {
                      url: marker.icon,
                   }}
                   onClick={() => {
-                     setSelected(marker);
-                     marker.icon = '/orangeCircle.svg';
-                     markers.forEach((marker, index) => {
-                        if (index !== outerIndex) {
-                           marker.icon = '/blueCircle3.png';
-                        }
-                     })
+                     // setSelected(marker);
+                     setMarkers(current =>
+                        current.map((marker, index) =>
+                           index === outerIndex
+                              ? { ...marker, icon: '/orangeCircle.svg' }
+                              : { ...marker, icon: '/blueCircle3.png' }
+                        )
+                     );
+                     // marker.icon = '/orangeCircle.svg';
+                     // markers.forEach((marker, index) => {
+                     //    if (index !== outerIndex) {
+                     //       marker.icon = '/blueCircle3.png';
+                     //    }
+                     // })
                   }}
                ></Marker>
-            ))} */}
+            ))}
 
             {/* {selected ? (
                <InfoWindow
