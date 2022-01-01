@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
-import Apartment from './components/Apartment';
+import Apartments from './components/Apartments';
 // import Search from './components/Search';
 import './App.css';
 // import '@reach/combobox/styles.css';
@@ -18,6 +18,57 @@ const center = {
    lat: 50.4293321294912,
    lng: 30.452419950074063,
 }
+
+const data = [
+   {
+      lat: 50.42711686105861,
+      lng: 30.453401587110793,
+      time: new Date(),
+      icon: markerImage,
+      apartmentInfo: {
+         image: '/flat1.jpg',
+         description: 'Квартира подобово в Києві, центр vip',
+         cost: '1500 грн / доба',
+         areaOfCity: 'Киев, Печерский район, Украина',
+      },
+   },
+   {
+      lat: 50.42677371631405,
+      lng: 30.454774731468667,
+      time: new Date(),
+      icon: markerImage,
+      apartmentInfo: {
+         image: '/flat2.jpg',
+         description: '1-комнатная ул.Мельникова',
+         cost: 'від 550 грн/доба',
+         areaOfCity: 'Киев, Шевченковский район, Украина',
+      },
+   },
+   {
+      lat: 50.42852807809127,
+      lng: 30.451891886960425,
+      time: new Date(),
+      icon: markerImage,
+      apartmentInfo: {
+         image: '/flat3.jpg',
+         description: 'Двухместный номер с двуспальной кроватью и кондиционером Саксаганского',
+         cost: '650 грн/доба',
+         areaOfCity: 'Саксаганского улица, Киев, Печерский район, Украина',
+      },
+   },
+   {
+      lat: 50.42852807809127,
+      lng: 30.451891886960425,
+      time: new Date(),
+      icon: markerImage,
+      apartmentInfo: {
+         image: '/flat3.jpg',
+         description: 'Двухместный номер с двуспальной кроватью и кондиционером Саксаганского',
+         cost: '650 грн/доба',
+         areaOfCity: 'Саксаганского улица, Киев, Печерский район, Украина',
+      },
+   },
+];
 
 function App() {
    const [markers, setMarkers] = useState([]);
@@ -85,8 +136,8 @@ function App() {
             ))}
 
             {
-               selected && (
-                  <Apartment selected={selected}></Apartment>
+               (
+                  <Apartments data={data} selected={selected}></Apartments>
                )
             }
          </GoogleMap>
