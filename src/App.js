@@ -72,9 +72,15 @@ function App() {
    const [selected, setSelected] = useState(null);
 
    useEffect(() => {
-      const instance = axios.create({
-         baseURL: 'http://localhost:5000/',
-      });
+      // const instance = axios.create({
+      //    baseURL: 'http://localhost:5000/',
+      // withCredentials: false,
+      // crossorigin:true,
+      // headers: {
+      //    'Access-Control-Allow-Origin': '*',
+      //    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      // },
+      // });
       // const fetchData = async () => {
       //    const { data } = await axios.get('/apartments',  {
       //       headers: {
@@ -85,17 +91,30 @@ function App() {
       // }
       // fetchData();
       const fetchData = async () => {
-         await instance
-            .get('/', {
-               headers: {
-                  'Access-Control-Allow-Origin': '*',
-               },
+         const { data } = await axios.get('http://localhost:5000/apartments');
+         setMarkers(data);
+         setMarkers(current =>
+            current.map(marker => {
+               const { lat, lng, description, cost, areaOfCity } = marker;
+               const apartmentInfo = {
+                  description,
+                  cost,
+                  // icon: markerImage,
+                  image: './flat3.jpg',
+                  areaOfCity,
+               };
+               return {
+                  lat,
+                  lng,
+                  icon: markerImage,
+                  apartmentInfo,
+               };
             })
-            .then(responce => {
-               setMarkers(responce.data);
-            });
+         );
       };
+      if (!markers) {
       fetchData();
+      }
 
       console.log(markers);
    }, [markers]);
@@ -106,21 +125,21 @@ function App() {
       setMarkers(current => current.map(marker => ({ ...marker, icon: markerImage })));
    }, []);
 
-   const onMarkerClick = (marker, outerIndex) => {
-      console.log(marker);
-      console.log(outerIndex);
+   // const onMarkerClick = (marker, outerIndex) => {
+   //    console.log(marker);
+   //    console.log(outerIndex);
 
-      setMarkers(current =>
-         current.map((marker, index) =>
-            index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
-         )
-      );
-   };
+   //    setMarkers(current =>
+   //       current.map((marker, index) =>
+   //          index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
+   //       )
+   //    );
+   // };
 
    const mapRef = useRef();
-   const onMapLoad = useCallback(map => {
-      mapRef.current = map;
-   }, []);
+   // const onMapLoad = useCallback(map => {
+   //    mapRef.current = map;
+   // }, []);
 
    // const panTo = useCallback(({ lat, lng }) => {
    //    mapRef.current.panTo({ lat, lng });
