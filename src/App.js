@@ -6,6 +6,7 @@ import '@reach/combobox/styles.css';
 import data from './skateboard-parks.js'
 import mapStyles from './mapStyles';
 
+const markerImage = '/blueCircle.png';
 const options = {
    styles: mapStyles,
    disableDefaultUI: true,
@@ -23,7 +24,7 @@ function App() {
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
             time: new Date(),
-            icon: '/blueCircle3.png',
+            icon: markerImage,
          },
       ]);
    }, []);
@@ -72,16 +73,10 @@ function App() {
                      setMarkers(current =>
                         current.map((marker, index) =>
                            index === outerIndex
-                              ? { ...marker, icon: '/orangeCircle.svg' }
-                              : { ...marker, icon: '/blueCircle3.png' }
+                              ? { ...marker, icon: '/orangeCircle1.png' }
+                              : { ...marker, icon: markerImage }
                         )
                      );
-                     // marker.icon = '/orangeCircle.svg';
-                     // markers.forEach((marker, index) => {
-                     //    if (index !== outerIndex) {
-                     //       marker.icon = '/blueCircle3.png';
-                     //    }
-                     // })
                   }}
                ></Marker>
             ))}
