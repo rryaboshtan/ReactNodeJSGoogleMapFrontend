@@ -124,7 +124,7 @@ function App() {
             onClick={onMapClick}
             // onLoad={onMapLoad}
          >
-            {data.map((marker, outerIndex) => (
+            {markers.map((marker, outerIndex) => (
                <Marker
                   key={uuidv4()}
                   position={{ lat: marker.lat, lng: marker.lng }}
@@ -138,11 +138,11 @@ function App() {
                         ...marker,
                      });
                      console.log(selected);
-                     // setMarkers(current =>
-                     //    current.map((marker, index) =>
-                     //       index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
-                     //    )
-                     // );
+                     setMarkers(current =>
+                        current.map((marker, index) =>
+                           index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
+                        )
+                     );
                   }}
                   // onClick={() => {
                   //    setSelected({
