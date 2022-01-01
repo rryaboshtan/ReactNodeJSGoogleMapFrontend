@@ -13,11 +13,10 @@ const options = {
    disableDefaultUI: true,
    zoomControl: true,
 };
-
 const center = {
-   lat: 50.4293321294912,
-   lng: 30.452419950074063,
-}
+   lat: 50.426870377047535,
+   lng: 30.454797490696944,
+};
 
 const data = [
    {
@@ -100,13 +99,12 @@ function App() {
       withGoogleMap(() => (
          <GoogleMap
             defaultZoom={17}
-            
             defaultCenter={center}
             options={options}
             onClick={onMapClick}
             // onLoad={onMapLoad}
          >
-            {markers.map((marker, outerIndex) => (
+            {data.map((marker, outerIndex) => (
                <Marker
                   key={marker.time.toISOString()}
                   position={{ lat: marker.lat, lng: marker.lng }}
@@ -121,25 +119,19 @@ function App() {
                            description: 'Квартира подобово в Києві, центр vip',
                            cost: '1500 грн / доба',
                            areaOfCity: 'Киев, Печерский район, Украина',
-                        }
+                        },
                      });
-                     console.log( selected );
+                     console.log(selected);
                      setMarkers(current =>
                         current.map((marker, index) =>
-                           index === outerIndex
-                              ? { ...marker, icon: '/orangeCircle1.png' }
-                              : { ...marker, icon: markerImage }
+                           index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
                         )
                      );
                   }}
                ></Marker>
             ))}
 
-            {
-               (
-                  <Apartments data={data} selected={selected}></Apartments>
-               )
-            }
+            {<Apartments data={data} selected={selected}></Apartments>}
          </GoogleMap>
       ))
    );
