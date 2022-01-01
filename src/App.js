@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
 import Apartments from './components/Apartments';
+import { v4 as uuidv4 } from 'uuid';
 // import Search from './components/Search';
 import './App.css';
 // import '@reach/combobox/styles.css';
@@ -73,6 +74,11 @@ function App() {
    const [markers, setMarkers] = useState([]);
    const [selected, setSelected] = useState(null);
 
+   useEffect(() => {
+      setMarkers(data)
+     
+   }, [])
+
    const onMapClick = useCallback(event => {
       setMarkers(current => [
          ...current,
@@ -84,6 +90,20 @@ function App() {
          },
       ]);
    }, []);
+
+   const onMarkerClick = (marker, outerIndex) => {
+      console.log(marker);
+      console.log(outerIndex);
+      // setSelected({
+      //    id: 'sdfsdf'
+      // });
+      // console.log(selected);
+      setMarkers(current =>
+         current.map((marker, index) =>
+            index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
+         )
+      );
+   };
 
    // const mapRef = useRef();
    // const onMapLoad = useCallback(map => {
@@ -106,32 +126,49 @@ function App() {
          >
             {data.map((marker, outerIndex) => (
                <Marker
-                  key={marker.time.toISOString()}
+                  key={uuidv4()}
                   position={{ lat: marker.lat, lng: marker.lng }}
                   icon={{
                      url: marker.icon,
                   }}
                   onClick={() => {
+                     // console.log(marker);
+                     // console.log(outerIndex);
                      setSelected({
-                        marker,
-                        apartmentInfo: {
-                           image: '/flat1.jpg',
-                           description: 'Квартира подобово в Києві, центр vip',
-                           cost: '1500 грн / доба',
-                           areaOfCity: 'Киев, Печерский район, Украина',
-                        },
+                        ...marker,
                      });
                      console.log(selected);
-                     setMarkers(current =>
-                        current.map((marker, index) =>
-                           index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
-                        )
-                     );
+                     // setMarkers(current =>
+                     //    current.map((marker, index) =>
+                     //       index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
+                     //    )
+                     // );
                   }}
+                  // onClick={() => {
+                  //    setSelected({
+                  //       marker,
+                  //       apartmentInfo: {
+                  //          image: '/flat1.jpg',
+                  //          description: 'Квартира подобово в Києві, центр vip',
+                  //          cost: '1500 грн / доба',
+                  //          areaOfCity: 'Киев, Печерский район, Украина',
+                  //       },
+                  //    });
+                  //    console.log(selected);
+                  //    setMarkers(current =>
+                  //       current.map((marker, index) =>
+                  //          index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
+                  //       )
+                  //    );
+                  // }}
                ></Marker>
             ))}
 
-            {<Apartments data={data} selected={selected}></Apartments>}
+            {selected ? (
+               <Apartments data={[selected]}></Apartments>
+            ) : (
+               <Apartments data={data} ></Apartments>
+            )}
          </GoogleMap>
       ))
    );
