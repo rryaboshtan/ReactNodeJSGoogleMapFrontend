@@ -1,17 +1,23 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
-import Search from './components/Search';
+import Apartment from './components/Apartment';
+// import Search from './components/Search';
 import './App.css';
-import '@reach/combobox/styles.css';
-import data from './skateboard-parks.js'
-import mapStyles from './mapStyles';
+// import '@reach/combobox/styles.css';
+// import data from './skateboard-parks.js'
+// import mapStyles from './mapStyles';
 
 const markerImage = '/blueCircle.png';
 const options = {
-   styles: mapStyles,
+   // styles: mapStyles,
    disableDefaultUI: true,
    zoomControl: true,
 };
+
+const center = {
+   lat: 50.4293321294912,
+   lng: 30.452419950074063,
+}
 
 function App() {
    const [markers, setMarkers] = useState([]);
@@ -42,25 +48,13 @@ function App() {
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
          <GoogleMap
-            defaultZoom={10}
+            defaultZoom={17}
             
-            defaultCenter={{ lat: 45.467134581917357, lng: -75.546518086577947 }}
+            defaultCenter={center}
             options={options}
             onClick={onMapClick}
             // onLoad={onMapLoad}
          >
-            {data.features.map(park => (
-                  <Marker
-                     key={park.properties.PARK_ID}
-                     position={{
-                        lat: park.geometry.coordinates[1],
-                        lng: park.geometry.coordinates[0],
-                     }}
-                  >
-
-                  </Marker>
-               ))
-            }
             {markers.map((marker, outerIndex) => (
                <Marker
                   key={marker.time.toISOString()}
@@ -69,7 +63,16 @@ function App() {
                      url: marker.icon,
                   }}
                   onClick={() => {
-                     // setSelected(marker);
+                     setSelected({
+                        marker,
+                        apartmentInfo: {
+                           image: '/flat1.jpg',
+                           description: 'Квартира подобово в Києві, центр vip',
+                           cost: '1500 грн / доба',
+                           areaOfCity: 'Киев, Печерский район, Украина',
+                        }
+                     });
+                     console.log( selected );
                      setMarkers(current =>
                         current.map((marker, index) =>
                            index === outerIndex
@@ -81,18 +84,11 @@ function App() {
                ></Marker>
             ))}
 
-            {/* {selected ? (
-               <InfoWindow
-                  position={{ lat: selected.lat, lng: selected.lng }}
-                  onCloseClick={() => {
-                     setSelected(null);
-                  }}
-               >
-                  <div>
-                     <h2>Bear spotted!</h2>
-                  </div>
-               </InfoWindow>
-            ) : null} */}
+            {
+               selected && (
+                  <Apartment selected={selected}></Apartment>
+               )
+            }
          </GoogleMap>
       ))
    );
