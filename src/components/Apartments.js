@@ -10,7 +10,7 @@ export default function Apartments({ data }) {
             // console.log(apartment);
             return (
                <div key={uuidv4()} className='apartment'>
-                  <img src={image} alt=''></img>
+                  <img src={`data:image/jpg;base64,${image}`} alt=''></img>
                   <span className='cost'>{cost}</span>
                </div>
             );

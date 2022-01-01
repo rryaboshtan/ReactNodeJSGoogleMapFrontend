@@ -96,11 +96,11 @@ function App() {
           console.log(markers);
          setMarkers(current =>
             current.map(marker => {
-               const { lat, lng, description, cost, areaOfCity} = marker;
+               const { lat, lng, image, description, cost, areaOfCity} = marker;
                const apartmentInfo = {
                   description,
                   cost,
-                  image: './flat3.jpg',
+                  image: image,
                   areaOfCity,
                };
                return {
