@@ -93,13 +93,13 @@ function App() {
       const fetchData = async () => {
          const { data } = await axios.get('http://localhost:5000/apartments');
          setMarkers(data);
+          console.log(markers);
          setMarkers(current =>
             current.map(marker => {
-               const { lat, lng, description, cost, areaOfCity } = marker;
+               const { lat, lng, description, cost, areaOfCity} = marker;
                const apartmentInfo = {
                   description,
                   cost,
-                  // icon: markerImage,
                   image: './flat3.jpg',
                   areaOfCity,
                };
@@ -112,12 +112,13 @@ function App() {
             })
          );
       };
-      if (!markers) {
-      fetchData();
-      }
+      // if (!markers) {
+         fetchData();
+      // }
 
-      console.log(markers);
-   }, [markers]);
+      // console.log(markers);
+   }, []);
+
 
    const onMapClick = useCallback(() => {
       setSelected(null);
@@ -166,9 +167,6 @@ function App() {
                      url: marker.icon,
                   }}
                   onClick={() => {
-                     // console.log(mapRef.current.getBounds());
-                     // console.log(marker);
-                     // console.log(outerIndex);
                      setSelected({
                         ...marker,
                      });
