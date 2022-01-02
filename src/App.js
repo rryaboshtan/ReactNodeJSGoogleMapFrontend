@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import axios from 'axios';
-
-import Apartments from './components/Apartments';
 import { v4 as uuidv4 } from 'uuid';
+
+import Apartments from './components/Apartments/Apartments';
+import AddForm from './components/AddForm/AddForm';
 import './App.css';
 
 const markerImage = '/blueCircle.png';
@@ -93,10 +94,10 @@ function App() {
       const fetchData = async () => {
          const { data } = await axios.get('http://localhost:5000/apartments');
          setMarkers(data);
-          console.log(markers);
+         console.log(markers);
          setMarkers(current =>
             current.map(marker => {
-               const { lat, lng, image, description, cost, areaOfCity} = marker;
+               const { lat, lng, image, description, cost, areaOfCity } = marker;
                const apartmentInfo = {
                   description,
                   cost,
@@ -112,13 +113,8 @@ function App() {
             })
          );
       };
-      // if (!markers) {
-         fetchData();
-      // }
-
-      // console.log(markers);
+      fetchData();
    }, []);
-
 
    const onMapClick = useCallback(() => {
       setSelected(null);
@@ -159,6 +155,7 @@ function App() {
                console.log('Loaded');
             }}
          >
+            <AddForm></AddForm>
             {markers.map((marker, outerIndex) => (
                <Marker
                   key={uuidv4()}
