@@ -86,6 +86,8 @@ function App() {
                isNewMarkerAdded={isNewMarkerAdded}
                isMarkerAddedCallback={setIsNewMarkerAdded}
                setPointerLatLngCallback={setPointerLatLng}
+               setMarkersCallback={setMarkers}
+               markers={markers}
             ></AddForm>
             {markers.map((marker, outerIndex) => (
                <Marker

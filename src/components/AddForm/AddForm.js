@@ -1,22 +1,66 @@
 import React, { useRef } from 'react';
 import './addform.css';
 
-const AddForm = ({ pointerLatLng, isNewMarkerAdded, isMarkerAddedCallback, setPointerLatLngCallback }) => {
+const markerImage = '/blueCircle.png';
+
+const AddForm = ({
+   pointerLatLng,
+   isNewMarkerAdded,
+   isMarkerAddedCallback,
+   setPointerLatLngCallback,
+   setMarkersCallback,
+   markers,
+}) => {
    const { lat, lng } = pointerLatLng;
    const formRef = useRef(null);
 
-   const onShowMessage = () => {
+   const onShowMessage = async () => {
       const notValidElements = Array.from(formRef.current.elements).filter(element => !element.value);
+      const elements = formRef.current.elements;
 
-      // console.log('notValidElements.length', notValidElements.length);
+      let file = formRef.current.images.files[0];
+
+      let reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      console.log('reader.result', reader.result);
+
+      
+    
+      
+
       if (notValidElements.length === 1) {
          isMarkerAddedCallback(false);
          setPointerLatLngCallback({});
-
+        
+      
          formRef.current.submit();
-         for (const element of formRef.current.elements) {
-            element.value = '';
-         }
+
+         reader.onloadend = function () {
+            console.log('reader.result', reader.result);
+            console.log('markers = ', markers);
+            console.log(elements);
+            const newMarkers = markers.slice(0, markers.length - 1);
+            const obj = {
+               lat,
+               lng,
+               icon: markerImage,
+               apartmentInfo: {
+                  description: elements.description.value,
+                  cost: elements.cost.value,
+                  // Image in base64 format
+                  image: reader.result.slice(23),
+                  areaOfCity: elements.areaOfCity.value,
+               },
+            };
+            console.log('obj = ', obj);
+            for (const element of formRef.current.elements) {
+               element.value = '';
+            }
+            setMarkersCallback(current => [...newMarkers, obj]);
+         };
+      
+        
       }
    };
    return (
