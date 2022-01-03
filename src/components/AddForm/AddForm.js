@@ -1,16 +1,17 @@
 import React, { useRef } from 'react';
 import './addform.css';
 
-const AddForm = ({ pointerLatLng, isNewMarkerAdded, isMarkerAddedCallback }) => {
+const AddForm = ({ pointerLatLng, isNewMarkerAdded, isMarkerAddedCallback, setPointerLatLngCallback }) => {
    const { lat, lng } = pointerLatLng;
    const formRef = useRef(null);
 
    const onShowMessage = () => {
       const notValidElements = Array.from(formRef.current.elements).filter(element => !element.value);
 
-      console.log('notValidElements.length', notValidElements.length);
-      if (notValidElements.length === 3 || notValidElements.length === 1) {
+      // console.log('notValidElements.length', notValidElements.length);
+      if (notValidElements.length === 1) {
          isMarkerAddedCallback(false);
+         setPointerLatLngCallback({});
 
          formRef.current.submit();
          for (const element of formRef.current.elements) {

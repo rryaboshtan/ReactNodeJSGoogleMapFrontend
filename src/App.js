@@ -81,7 +81,12 @@ function App() {
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
          <GoogleMap ref={mapRef} defaultZoom={15} defaultCenter={center} options={options} onClick={onMapClick}>
-            <AddForm pointerLatLng={pointerLatLng} isNewMarkerAdded={isNewMarkerAdded} isMarkerAddedCallback={setIsNewMarkerAdded}></AddForm>
+            <AddForm
+               pointerLatLng={pointerLatLng}
+               isNewMarkerAdded={isNewMarkerAdded}
+               isMarkerAddedCallback={setIsNewMarkerAdded}
+               setPointerLatLngCallback={setPointerLatLng}
+            ></AddForm>
             {markers.map((marker, outerIndex) => (
                <Marker
                   key={uuidv4()}
