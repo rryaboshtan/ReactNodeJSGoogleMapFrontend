@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
+import { MARKER_IMAGE } from '../../config';
 import './addform.css';
-
-const markerImage = '/blueCircle.png';
 
 const AddForm = ({
    pointerLatLng,
@@ -27,7 +26,7 @@ const AddForm = ({
          const obj = {
             lat,
             lng,
-            icon: markerImage,
+            icon: MARKER_IMAGE,
             apartmentInfo: {
                description: elements.description.value,
                cost: elements.cost.value,

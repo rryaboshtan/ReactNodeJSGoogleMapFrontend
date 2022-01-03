@@ -1,4 +1,4 @@
-Создайте свой Google Maps API Key в Google developer console. Удостоверьтесь что подключены Maps JavaScript API и Places API, иначе приложение не будет работать. Введите свой ключ в переменную REACT_APP_GOOGLE_MAPS_API_KEY в файле .env в папке frontend.
+Создайте свой Google Maps API Key в Google developer console. Удостоверьтесь что подключен Maps JavaScript API, иначе приложение не будет работать. Введите свой ключ в переменную REACT_APP_GOOGLE_MAPS_API_KEY в файле .env в папке frontend.
 
 Инструкция по установке:
 

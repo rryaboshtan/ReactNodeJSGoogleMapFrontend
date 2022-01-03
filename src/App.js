@@ -5,9 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Apartments from './components/Apartments/Apartments';
 import AddForm from './components/AddForm/AddForm';
+import { MARKER_IMAGE } from './config';
 import './App.css';
 
-const markerImage = '/blueCircle.png';
 const selectedMarkerImage = '/orangeCircle.png';
 
 const options = {
@@ -42,7 +42,7 @@ function App() {
                return {
                   lat,
                   lng,
-                  icon: markerImage,
+                  icon: MARKER_IMAGE,
                   apartmentInfo,
                };
             })
@@ -62,7 +62,7 @@ function App() {
          if (!isNewMarkerAdded) {
             setIsNewMarkerAdded(true);
             setMarkers(current => [
-               ...current.map(marker => ({ ...marker, icon: markerImage })),
+               ...current.map(marker => ({ ...marker, icon: MARKER_IMAGE })),
                {
                   lat: event.latLng.lat(),
                   lng: event.latLng.lng(),
@@ -107,7 +107,7 @@ function App() {
 
                      setMarkers(current =>
                         current.map((marker, index) =>
-                           index === outerIndex ? { ...marker, icon: selectedMarkerImage } : { ...marker, icon: markerImage }
+                           index === outerIndex ? { ...marker, icon: selectedMarkerImage } : { ...marker, icon: MARKER_IMAGE }
                         )
                      );
                   }}
