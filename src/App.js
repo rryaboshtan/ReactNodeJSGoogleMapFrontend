@@ -17,86 +17,17 @@ const center = {
    lng: 30.454797490696944,
 };
 
-// const data = [
-//    {
-//       lat: 50.42711686105861,
-//       lng: 30.453401587110793,
-//       time: new Date(),
-//       icon: markerImage,
-//       apartmentInfo: {
-//          image: '/flat1.jpg',
-//          description: 'Квартира подобово в Києві, центр vip',
-//          cost: '1500 грн / доба',
-//          areaOfCity: 'Киев, Печерский район, Украина',
-//       },
-//    },
-//    {
-//       lat: 50.42677371631405,
-//       lng: 30.454774731468667,
-//       time: new Date(),
-//       icon: markerImage,
-//       apartmentInfo: {
-//          image: '/flat2.jpg',
-//          description: '1-комнатная ул.Мельникова',
-//          cost: 'від 550 грн/доба',
-//          areaOfCity: 'Киев, Шевченковский район, Украина',
-//       },
-//    },
-//    {
-//       lat: 50.42852807809127,
-//       lng: 30.451891886960425,
-//       time: new Date(),
-//       icon: markerImage,
-//       apartmentInfo: {
-//          image: '/flat3.jpg',
-//          description: 'Двухместный номер с двуспальной кроватью и кондиционером Саксаганского',
-//          cost: '650 грн/доба',
-//          areaOfCity: 'Саксаганского улица, Киев, Печерский район, Украина',
-//       },
-//    },
-//    {
-//       lat: 50.42852807809127,
-//       lng: 30.451891886960425,
-//       time: new Date(),
-//       icon: markerImage,
-//       apartmentInfo: {
-//          image: '/flat3.jpg',
-//          description: 'Двухместный номер с двуспальной кроватью и кондиционером Саксаганского',
-//          cost: '650 грн/доба',
-//          areaOfCity: 'Саксаганского улица, Киев, Печерский район, Украина',
-//       },
-//    },
-// ];
-function debounce(fn, delay = 500) {
-   let timer = null;
-
-   if (delay === 0) {
-      return fn;
-   }
-
-   return function (...args) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-         fn.apply(this, args);
-         console.log('Args = ', args);
-      }, delay);
-   };
-}
- let visibles = 1;
 function App() {
    const [markers, setMarkers] = useState([]);
    const [selected, setSelected] = useState(null);
-   const [visibleMarkers, setVisibleMarkers] = useState(null);
    const [pointerLatLng, setPointerLatLng] = useState({});
 
-  
    useEffect(() => {
       const fetchData = async () => {
          const { data } = await axios.get('http://localhost:5000/apartments');
          setMarkers(data);
-         console.log(markers);
-        
-         await setMarkers(current =>
+
+         setMarkers(current =>
             current.map(marker => {
                const { lat, lng, image, description, cost, areaOfCity } = marker;
                const apartmentInfo = {
@@ -113,24 +44,17 @@ function App() {
                };
             })
          );
-
-          visibles = [...markers];
-          console.log('visibles', visibles);
       };
       fetchData();
    }, []);
 
-   const onMapClick = useCallback((event) => {
+   const onMapClick = useCallback(event => {
       setSelected(null);
-      console.log('Map clicked');
-      console.log(event);
-      // const northEast = mapRef.current.getBounds().getNorthEast();
-      // const southWest = mapRef.current.getBounds().getSouthWest();
-      // console.log(ne.lat(), ';', ne.lng());
+
       setPointerLatLng({
          lat: event.latLng.lat(),
          lng: event.latLng.lng(),
-      })
+      });
       setMarkers(current => [
          ...current.map(marker => ({ ...marker, icon: markerImage })),
          {
@@ -145,65 +69,13 @@ function App() {
             },
          },
       ]);
-      console.log(pointerLatLng);
    }, []);
 
-   const callback = useCallback(visibles => {
-      setMarkers(visibles);
-   });
-
-   // const onMarkerClick = (marker, outerIndex) => {
-   //    console.log(marker);
-   //    console.log(outerIndex);
-
-   //    setMarkers(current =>
-   //       current.map((marker, index) =>
-   //          index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
-   //       )
-   //    );
-   // };
-
    const mapRef = useRef();
-   // const onMapLoad = useCallback(map => {
-   //    mapRef.current = map;
-   // }, []);
-
-   // const panTo = useCallback(({ lat, lng }) => {
-   //    mapRef.current.panTo({ lat, lng });
-   //    mapRef.current.setZoom(14);
-   // }, []);
 
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
-         <GoogleMap
-            ref={mapRef}
-            defaultZoom={15}
-            defaultCenter={center}
-            options={options}
-            onClick={onMapClick}
-            onLoad={map => {
-               mapRef.current = map;
-               console.log('Loaded');
-            }}
-            onResize={() => {
-               console.log('Resize');
-            }}
-            onBoundsChanged={debounce(() => {
-               console.log('Bounds changed');
-               const northEast = mapRef.current.getBounds().getNorthEast();
-               const southWest = mapRef.current.getBounds().getSouthWest();
-
-               visibles = markers.filter(
-                  marker =>
-                     marker.lng < northEast.lng() &&
-                     marker.lng > southWest.lng() &&
-                     marker.lat < northEast.lat() &&
-                     marker.lat > southWest.lat()
-               );
-               console.log('visibles', visibles.length);
-               // callback(visibles);
-            })}
-         >
+         <GoogleMap ref={mapRef} defaultZoom={15} defaultCenter={center} options={options} onClick={onMapClick}>
             <AddForm pointerLatLng={pointerLatLng}></AddForm>
             {markers.map((marker, outerIndex) => (
                <Marker
@@ -216,11 +88,10 @@ function App() {
                      setSelected({
                         ...marker,
                      });
-                     // console.log(mapRef.current);
-                     console.log(pointerLatLng);
+
                      setMarkers(current =>
                         current.map((marker, index) =>
-                           index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
+                           index === outerIndex ? { ...marker, icon: '/orangeCircle.png' } : { ...marker, icon: markerImage }
                         )
                      );
                   }}
@@ -228,7 +99,6 @@ function App() {
             ))}
 
             {selected ? <Apartments data={[selected]}></Apartments> : <Apartments data={markers}></Apartments>}
-            {/* {visibles ? : null} */}
          </GoogleMap>
       ))
    );
@@ -240,13 +110,6 @@ function App() {
             loadingElement={<div className='full-size' />}
             containerElement={<div className='full-size' />}
             mapElement={<div className='full-size' />}
-            onResize={event => {
-               console.log(event);
-            }}
-            onLoad={map => {
-               mapRef.current = map;
-               console.log('Loaded');
-            }}
          />
       </div>
    );

@@ -8,7 +8,6 @@ const AddForm = ({ pointerLatLng }) => {
    const onShowMessage = () => {
       for (const element of formRef.current.elements) {
          element.value = '';
-         console.log(element.focus());
       }
    };
    return (
@@ -37,13 +36,10 @@ const AddForm = ({ pointerLatLng }) => {
 
          <div className='form-group'>
             <input type='file' name='images' id='formFile' accept='.jpg, .jpeg, .png' required />
-            {/* <label className='form-label'>Cost</label> */}
          </div>
-         {/* <div className='form-group'> */}
          <label className='message-form-label' hidden={lat || lng}>
             Выберите точку на карте
          </label>
-         {/* </div> */}
 
          <button className='form-button' disabled={!lat || !lng} onClick={onShowMessage}>
             Подати оголошення

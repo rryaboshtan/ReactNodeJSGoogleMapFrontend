@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
 .form {
     width: 300px;
     height: 390px;
     background-color: #fff;
     position: absolute;
-    /* pointer-events: none; */
     left: 20px;
     top: 50%;
     padding: 32px;
@@ -17,10 +15,6 @@
     div {
         cursor: pointer;
     }
-
-    // &:focus {
-    //     box-shadow: 10px 14px 16px rgba(21, 21, 78, .8);
-    // }
 
     .form-title {
         text-align: center;
@@ -42,8 +36,6 @@
         }
 
         .form-input {
-            // cursor: url(CursorText.png);
-            // cursor: help;
             width: 100%;
             padding: 0 0 10px 0;
             border: none;

@@ -1,17 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Poppins&display=swap');
-
-/* body {
-   cursor: help;
-}
-.gm-style {
-   cursor: help;
-
-} */
 div {
     cursor: help;
 }
 .map-container {
-   /* cursor: url(CursorText.png),auto; */
    cursor: help;
    width: 100vw;
    height: 100vh;

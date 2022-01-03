@@ -7,7 +7,6 @@ export default function Apartments({ data }) {
       <div className='apartments'>
          {data.map(apartment => {
             const { image, description, cost, areaOfCity } = apartment.apartmentInfo;
-            // console.log(apartment);
             return (
                <div key={uuidv4()} className='apartment'>
                   <img src={`data:image/jpg;base64,${image}`} alt=''></img>
