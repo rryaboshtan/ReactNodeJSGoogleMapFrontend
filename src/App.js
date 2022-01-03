@@ -56,7 +56,6 @@ function App() {
          lat: event.latLng.lat(),
          lng: event.latLng.lng(),
       });
-      console.log('isNewMarkerAdded', isNewMarkerAdded);
       if (!isNewMarkerAdded) {
          setIsNewMarkerAdded(true);
          setMarkers(current => [
