@@ -6,10 +6,14 @@ const AddForm = ({ pointerLatLng, isNewMarkerAdded, isMarkerAddedCallback }) => 
    const formRef = useRef(null);
 
    const onShowMessage = () => {
-      const notValidElements = Array.from(formRef.current.elements).filter(element => !element.value);
+      formRef.current.submit();
+
       for (const element of formRef.current.elements) {
          element.value = '';
       }
+
+      const notValidElements = Array.from(formRef.current.elements).filter(element => !element.value);
+
       if (notValidElements.length === 3 || notValidElements.length === 1) {
          isMarkerAddedCallback(false);
       }
