@@ -1,22 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Poppins&display=swap');
+
+/* body {
+   cursor: help;
+}
+.gm-style {
+   cursor: help;
+
+} */
+div {
+    cursor: help;
+}
 .map-container {
-    width: 100vw;
-    height: 100vh;
+   /* cursor: url(CursorText.png),auto; */
+   cursor: help;
+   width: 100vw;
+   height: 100vh;
 }
 .full-size {
-    height: 95%;
+   height: 95%;
 }
 h1 {
-    position: absolute;
+   position: absolute;
 
-    z-index: 1;
-    color: #4e1b1b;
+   z-index: 1;
+   color: #4e1b1b;
 }
 .search {
-    position: absolute;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 400px;
-    z-index: 1;
+   position: absolute;
+   top: 1rem;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 100%;
+   max-width: 400px;
+   z-index: 1;
 }

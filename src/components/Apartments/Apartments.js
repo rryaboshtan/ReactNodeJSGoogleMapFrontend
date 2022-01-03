@@ -12,6 +12,8 @@ export default function Apartments({ data }) {
                <div key={uuidv4()} className='apartment'>
                   <img src={`data:image/jpg;base64,${image}`} alt=''></img>
                   <span className='cost'>{cost}</span>
+                  <h3>{description}</h3>
+                  <span className='areaOfCity'>{areaOfCity}</span>
                </div>
             );
          })}

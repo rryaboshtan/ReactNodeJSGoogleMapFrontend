@@ -87,7 +87,7 @@ function App() {
    const [markers, setMarkers] = useState([]);
    const [selected, setSelected] = useState(null);
    const [visibleMarkers, setVisibleMarkers] = useState(null);
-
+   const [pointerLatLng, setPointerLatLng] = useState({});
 
   
    useEffect(() => {
@@ -120,14 +120,32 @@ function App() {
       fetchData();
    }, []);
 
-   const onMapClick = useCallback(() => {
+   const onMapClick = useCallback((event) => {
       setSelected(null);
       console.log('Map clicked');
+      console.log(event);
       // const northEast = mapRef.current.getBounds().getNorthEast();
       // const southWest = mapRef.current.getBounds().getSouthWest();
       // console.log(ne.lat(), ';', ne.lng());
-
-      setMarkers(current => current.map(marker => ({ ...marker, icon: markerImage })));
+      setPointerLatLng({
+         lat: event.latLng.lat(),
+         lng: event.latLng.lng(),
+      })
+      setMarkers(current => [
+         ...current.map(marker => ({ ...marker, icon: markerImage })),
+         {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+            icon: markerImage,
+            apartmentInfo: {
+               description: '',
+               cost: '',
+               image: '  ',
+               areaOfCity: '',
+            },
+         },
+      ]);
+      console.log(pointerLatLng);
    }, []);
 
    const callback = useCallback(visibles => {
@@ -186,7 +204,7 @@ function App() {
                // callback(visibles);
             })}
          >
-            <AddForm></AddForm>
+            <AddForm pointerLatLng={pointerLatLng}></AddForm>
             {markers.map((marker, outerIndex) => (
                <Marker
                   key={uuidv4()}
@@ -198,7 +216,8 @@ function App() {
                      setSelected({
                         ...marker,
                      });
-                     console.log(mapRef.current);
+                     // console.log(mapRef.current);
+                     console.log(pointerLatLng);
                      setMarkers(current =>
                         current.map((marker, index) =>
                            index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }

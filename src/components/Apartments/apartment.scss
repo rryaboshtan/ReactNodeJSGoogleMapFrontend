@@ -1,5 +1,5 @@
 .apartments {
-     overflow-y: scroll;
+    overflow-y: scroll;
     position: fixed;
     width: 15%;
     height: 100%;
@@ -7,7 +7,6 @@
     top: 0px;
     background-color: #fff;
     z-index: 1;
-    // flex-direction: column;
 
     .apartment {
         position: relative;
@@ -16,13 +15,13 @@
         margin-left: 7px;
         margin-top: 10px;
         position: relative;
-        height: 300px;
+        height: 330px;
         background-color: #fff;
         border-radius: 10px;
         img {
             position: absolute;
             left: 0;
-            width: 100%;
+            width: 97%;
             border-top-right-radius: 10px;
             border-top-left-radius: 10px;
         }
@@ -34,11 +33,39 @@
             font-size: 16px;
             transition: color 0.2s;
             background: rgba(44, 53, 58, 0.85);
-            bottom: 61px;
+            // bottom: 113px;
+            bottom: 34.5%;
             left: 0px;
             z-index: 1;
             padding: 4px 10px;
             border-top-right-radius: 10px;
+        }
+        h3 {
+            // font-family: Verdana, Geneva, Tahoma, sans-serif;
+            position: absolute;
+            z-index: 1;
+            // bottom: 42px;
+            bottom: 12%;
+            left: 5px;
+            font-weight: 500;
+            max-height: 48px;
+            font-size: 17px;
+            overflow: hidden;
+            text-align: left;
+            text-overflow: ellipsis;
+            color: #000;
+        }
+        .areaOfCity {
+            position: absolute;
+            z-index: 1;
+            bottom: 3%;
+            left: 5px;
+            font-size: 13px;
+            margin: 6px 0;
+            color: #62737b;
+            font-weight: 400;
+            max-height: 33px;
+            overflow: hidden;
         }
     }
 }

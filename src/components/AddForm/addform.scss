@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
 .form {
     width: 300px;
-    height: 500px;
+    height: 390px;
     background-color: #fff;
     position: absolute;
     /* pointer-events: none; */
@@ -10,7 +11,12 @@
     border-radius: 10px;
     box-shadow: 0 4px 16px #ccc;
     transform: translateY(-70%);
+    cursor: pointer;
     z-index: 1;
+
+    div {
+        cursor: pointer;
+    }
 
     // &:focus {
     //     box-shadow: 10px 14px 16px rgba(21, 21, 78, .8);
@@ -36,7 +42,8 @@
         }
 
         .form-input {
-            // cursor: url(marker.png),auto;
+            // cursor: url(CursorText.png);
+            // cursor: help;
             width: 100%;
             padding: 0 0 10px 0;
             border: none;
@@ -44,22 +51,33 @@
             background-color: transparent;
             outline: none;
             transition: 0.3s;
-            &:not(:placeholder-shown) ~ .form-label {
+            &:not(:placeholder-shown) + .form-label {
                 top: -18px;
                 font-size: 12px;
             }
 
             &:focus {
                 border-bottom: 1px solid #1a73a8;
+                & + .form-label {
+                    top: -18px;
+                    font-size: 12px;
+                }
             }
         }
     }
 
-    .form-button {
-        padding: 10px 20px;
-        bottom: none;
-        border-radius: 5px;
+    .message-form-label {
         position: relative;
+        left: 19%;
+        bottom: 15px;
+        color: red;
+    }
+
+    .form-button {
+        padding: 15px 10px;
+        top: 360px;
+        border-radius: 5px;
+        position: absolute;
         left: 50%;
         transform: translateX(-50%);
         color: #fff;
@@ -71,6 +89,10 @@
         &:focus,
         &:hover {
             background-color: rgba(0, 113, 240, 0.7);
+        }
+
+        &:disabled {
+            background-color: #bbb;
         }
     }
 

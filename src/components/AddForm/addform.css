@@ -1,6 +1,7 @@
+
 .form {
   width: 300px;
-  height: 500px;
+  height: 390px;
   background-color: #fff;
   position: absolute;
   /* pointer-events: none; */
@@ -13,7 +14,12 @@
   -webkit-transform: translateY(-70%);
       -ms-transform: translateY(-70%);
           transform: translateY(-70%);
+  cursor: pointer;
   z-index: 1;
+}
+
+.form div {
+  cursor: pointer;
 }
 
 .form .form-title {
@@ -50,7 +56,7 @@
   transition: 0.3s;
 }
 
-.form .form-group .form-input:not(:placeholder-shown) ~ .form-label {
+.form .form-group .form-input:not(:placeholder-shown) + .form-label {
   top: -18px;
   font-size: 12px;
 }
@@ -59,11 +65,23 @@
   border-bottom: 1px solid #1a73a8;
 }
 
-.form .form-button {
-  padding: 10px 20px;
-  bottom: none;
-  border-radius: 5px;
+.form .form-group .form-input:focus + .form-label {
+  top: -18px;
+  font-size: 12px;
+}
+
+.form .message-form-label {
   position: relative;
+  left: 19%;
+  bottom: 15px;
+  color: red;
+}
+
+.form .form-button {
+  padding: 15px 10px;
+  top: 360px;
+  border-radius: 5px;
+  position: absolute;
   left: 50%;
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
@@ -79,6 +97,10 @@
 
 .form .form-button:focus, .form .form-button:hover {
   background-color: rgba(0, 113, 240, 0.7);
+}
+
+.form .form-button:disabled {
+  background-color: #bbb;
 }
 
 .form .form-input,
