@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './addform.css';
 
 const AddForm = ({ pointerLatLng }) => {
    const { lat, lng } = pointerLatLng;
+   const formRef = useRef(null);
+
+   const onShowMessage = () => {
+      for (const element of formRef.current.elements) {
+         element.value = '';
+         console.log(element.focus());
+      }
+   };
    return (
-      <form className='form' action='http://localhost:5000/uploadApartment' enctype='multipart/form-data' method='POST'>
+      <form
+         ref={formRef}
+         className='form'
+         action='http://localhost:5000/uploadApartment'
+         enctype='multipart/form-data'
+         method='POST'
+      >
          <div className='form-title'>Здати в оренду</div>
          <div className='form-group'>
             <input className='form-input' name='description' placeholder=' ' required></input>
@@ -31,7 +45,7 @@ const AddForm = ({ pointerLatLng }) => {
          </label>
          {/* </div> */}
 
-         <button className='form-button' disabled={!lat || !lng}>
+         <button className='form-button' disabled={!lat || !lng} onClick={onShowMessage}>
             Подати оголошення
          </button>
       </form>
