@@ -8,6 +8,8 @@ import AddForm from './components/AddForm/AddForm';
 import './App.css';
 
 const markerImage = '/blueCircle.png';
+const selectedMarkerImage = '/orangeCircle.png';
+
 const options = {
    disableDefaultUI: true,
    zoomControl: true,
@@ -49,31 +51,34 @@ function App() {
       fetchData();
    }, []);
 
-   const onMapClick = useCallback(event => {
-      setSelected(null);
+   const onMapClick = useCallback(
+      event => {
+         setSelected(null);
 
-      setPointerLatLng({
-         lat: event.latLng.lat(),
-         lng: event.latLng.lng(),
-      });
-      if (!isNewMarkerAdded) {
-         setIsNewMarkerAdded(true);
-         setMarkers(current => [
-            ...current.map(marker => ({ ...marker, icon: markerImage })),
-            {
-               lat: event.latLng.lat(),
-               lng: event.latLng.lng(),
-               icon: markerImage,
-               apartmentInfo: {
-                  description: '',
-                  cost: '',
-                  image: '  ',
-                  areaOfCity: '',
+         setPointerLatLng({
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+         });
+         if (!isNewMarkerAdded) {
+            setIsNewMarkerAdded(true);
+            setMarkers(current => [
+               ...current.map(marker => ({ ...marker, icon: markerImage })),
+               {
+                  lat: event.latLng.lat(),
+                  lng: event.latLng.lng(),
+                  icon: selectedMarkerImage,
+                  apartmentInfo: {
+                     description: '',
+                     cost: '',
+                     image: '  ',
+                     areaOfCity: '',
+                  },
                },
-            },
-         ]);
-      }
-   }, [isNewMarkerAdded]);
+            ]);
+         }
+      },
+      [isNewMarkerAdded]
+   );
 
    const mapRef = useRef();
 
@@ -102,7 +107,7 @@ function App() {
 
                      setMarkers(current =>
                         current.map((marker, index) =>
-                           index === outerIndex ? { ...marker, icon: '/orangeCircle.png' } : { ...marker, icon: markerImage }
+                           index === outerIndex ? { ...marker, icon: selectedMarkerImage } : { ...marker, icon: markerImage }
                         )
                      );
                   }}
