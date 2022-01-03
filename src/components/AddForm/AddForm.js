@@ -1,13 +1,17 @@
 import React, { useRef } from 'react';
 import './addform.css';
 
-const AddForm = ({ pointerLatLng }) => {
+const AddForm = ({ pointerLatLng, isNewMarkerAdded, isMarkerAddedCallback }) => {
    const { lat, lng } = pointerLatLng;
    const formRef = useRef(null);
 
    const onShowMessage = () => {
+      const notValidElements = Array.from(formRef.current.elements).filter(element => !element.value);
       for (const element of formRef.current.elements) {
          element.value = '';
+      }
+      if (notValidElements.length === 3 || notValidElements.length === 1) {
+         isMarkerAddedCallback(false);
       }
    };
    return (
@@ -44,6 +48,10 @@ const AddForm = ({ pointerLatLng }) => {
          <button className='form-button' disabled={!lat || !lng} onClick={onShowMessage}>
             Подати оголошення
          </button>
+
+         <label className='warning-message-label' hidden={!isNewMarkerAdded}>
+            Точка на карте уже выбрана, введите данные для отправки
+         </label>
       </form>
    );
 };

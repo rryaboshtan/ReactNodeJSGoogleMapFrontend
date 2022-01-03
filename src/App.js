@@ -20,6 +20,7 @@ const center = {
 function App() {
    const [markers, setMarkers] = useState([]);
    const [selected, setSelected] = useState(null);
+   const [isNewMarkerAdded, setIsNewMarkerAdded] = useState(false);
    const [pointerLatLng, setPointerLatLng] = useState({});
 
    useEffect(() => {
@@ -55,28 +56,32 @@ function App() {
          lat: event.latLng.lat(),
          lng: event.latLng.lng(),
       });
-      setMarkers(current => [
-         ...current.map(marker => ({ ...marker, icon: markerImage })),
-         {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng(),
-            icon: markerImage,
-            apartmentInfo: {
-               description: '',
-               cost: '',
-               image: '  ',
-               areaOfCity: '',
+      console.log('isNewMarkerAdded', isNewMarkerAdded);
+      if (!isNewMarkerAdded) {
+         setIsNewMarkerAdded(true);
+         setMarkers(current => [
+            ...current.map(marker => ({ ...marker, icon: markerImage })),
+            {
+               lat: event.latLng.lat(),
+               lng: event.latLng.lng(),
+               icon: markerImage,
+               apartmentInfo: {
+                  description: '',
+                  cost: '',
+                  image: '  ',
+                  areaOfCity: '',
+               },
             },
-         },
-      ]);
-   }, []);
+         ]);
+      }
+   }, [isNewMarkerAdded]);
 
    const mapRef = useRef();
 
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
          <GoogleMap ref={mapRef} defaultZoom={15} defaultCenter={center} options={options} onClick={onMapClick}>
-            <AddForm pointerLatLng={pointerLatLng}></AddForm>
+            <AddForm pointerLatLng={pointerLatLng} isNewMarkerAdded={isNewMarkerAdded} isMarkerAddedCallback={setIsNewMarkerAdded}></AddForm>
             {markers.map((marker, outerIndex) => (
                <Marker
                   key={uuidv4()}
