@@ -67,35 +67,36 @@ const center = {
 //       },
 //    },
 // ];
+function debounce(fn, delay = 500) {
+   let timer = null;
 
+   if (delay === 0) {
+      return fn;
+   }
+
+   return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+         fn.apply(this, args);
+         console.log('Args = ', args);
+      }, delay);
+   };
+}
+ let visibles = 1;
 function App() {
    const [markers, setMarkers] = useState([]);
    const [selected, setSelected] = useState(null);
+   const [visibleMarkers, setVisibleMarkers] = useState(null);
 
+
+  
    useEffect(() => {
-      // const instance = axios.create({
-      //    baseURL: 'http://localhost:5000/',
-      // withCredentials: false,
-      // crossorigin:true,
-      // headers: {
-      //    'Access-Control-Allow-Origin': '*',
-      //    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      // },
-      // });
-      // const fetchData = async () => {
-      //    const { data } = await axios.get('/apartments',  {
-      //       headers: {
-      //          'Access-Control-Allow-Origin': '*',
-      //       },
-      //    })
-      //    setMarkers(data);
-      // }
-      // fetchData();
       const fetchData = async () => {
          const { data } = await axios.get('http://localhost:5000/apartments');
          setMarkers(data);
          console.log(markers);
-         setMarkers(current =>
+        
+         await setMarkers(current =>
             current.map(marker => {
                const { lat, lng, image, description, cost, areaOfCity } = marker;
                const apartmentInfo = {
@@ -112,6 +113,9 @@ function App() {
                };
             })
          );
+
+          visibles = [...markers];
+          console.log('visibles', visibles);
       };
       fetchData();
    }, []);
@@ -119,8 +123,16 @@ function App() {
    const onMapClick = useCallback(() => {
       setSelected(null);
       console.log('Map clicked');
+      // const northEast = mapRef.current.getBounds().getNorthEast();
+      // const southWest = mapRef.current.getBounds().getSouthWest();
+      // console.log(ne.lat(), ';', ne.lng());
+
       setMarkers(current => current.map(marker => ({ ...marker, icon: markerImage })));
    }, []);
+
+   const callback = useCallback(visibles => {
+      setMarkers(visibles);
+   });
 
    // const onMarkerClick = (marker, outerIndex) => {
    //    console.log(marker);
@@ -146,7 +158,8 @@ function App() {
    const MyMapComponent = withScriptjs(
       withGoogleMap(() => (
          <GoogleMap
-            defaultZoom={17}
+            ref={mapRef}
+            defaultZoom={15}
             defaultCenter={center}
             options={options}
             onClick={onMapClick}
@@ -154,6 +167,24 @@ function App() {
                mapRef.current = map;
                console.log('Loaded');
             }}
+            onResize={() => {
+               console.log('Resize');
+            }}
+            onBoundsChanged={debounce(() => {
+               console.log('Bounds changed');
+               const northEast = mapRef.current.getBounds().getNorthEast();
+               const southWest = mapRef.current.getBounds().getSouthWest();
+
+               visibles = markers.filter(
+                  marker =>
+                     marker.lng < northEast.lng() &&
+                     marker.lng > southWest.lng() &&
+                     marker.lat < northEast.lat() &&
+                     marker.lat > southWest.lat()
+               );
+               console.log('visibles', visibles.length);
+               // callback(visibles);
+            })}
          >
             <AddForm></AddForm>
             {markers.map((marker, outerIndex) => (
@@ -167,7 +198,7 @@ function App() {
                      setSelected({
                         ...marker,
                      });
-                     console.log(selected);
+                     console.log(mapRef.current);
                      setMarkers(current =>
                         current.map((marker, index) =>
                            index === outerIndex ? { ...marker, icon: '/orangeCircle1.png' } : { ...marker, icon: markerImage }
@@ -178,6 +209,7 @@ function App() {
             ))}
 
             {selected ? <Apartments data={[selected]}></Apartments> : <Apartments data={markers}></Apartments>}
+            {/* {visibles ? : null} */}
          </GoogleMap>
       ))
    );

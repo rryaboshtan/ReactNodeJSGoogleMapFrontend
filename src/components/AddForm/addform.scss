@@ -12,6 +12,10 @@
     transform: translateY(-70%);
     z-index: 1;
 
+    // &:focus {
+    //     box-shadow: 10px 14px 16px rgba(21, 21, 78, .8);
+    // }
+
     .form-title {
         text-align: center;
         margin: 0 0 32px 0;
@@ -32,6 +36,7 @@
         }
 
         .form-input {
+            // cursor: url(marker.png),auto;
             width: 100%;
             padding: 0 0 10px 0;
             border: none;
@@ -39,7 +44,7 @@
             background-color: transparent;
             outline: none;
             transition: 0.3s;
-            &:not(:placeholder-shown) + .form-label {
+            &:not(:placeholder-shown) ~ .form-label {
                 top: -18px;
                 font-size: 12px;
             }
@@ -54,6 +59,9 @@
         padding: 10px 20px;
         bottom: none;
         border-radius: 5px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
         color: #fff;
         background-color: #0071f0;
         outline: none;
