@@ -21,3 +21,6 @@ npm start
     - MongoDB
     - Node JS
     - Multer
+
+### Screenshots
+![](/public/screenshot1.png)
